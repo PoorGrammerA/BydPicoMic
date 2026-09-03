@@ -2,14 +2,14 @@
 
 An interoperability research firmware implementing a BYD MiniKaraoke/PA10 compatible USB microphone using Waveshare RP2040-Zero and INMP441. It presents itself to the vehicle as a UAC1 microphone and PA10 control interface, delivering real-time INMP441 audio via 48 kHz stereo USB capture.
 
-The baseline firmware release point is tag `v1` (`806cfcf`) on the `main` branch.
+The baseline firmware release point is tag `v1` on the `main` branch.
 
 <details>
 <summary><b>한국어 (Korean)</b></summary>
 
 Waveshare RP2040-Zero와 INMP441으로 BYD MiniKaraoke/PA10 호환 USB 마이크를 구현한 상호운용 연구 펌웨어다. 차량에는 UAC1 마이크와 PA10 제어 인터페이스로 보이며, INMP441의 실시간 음성을 48 kHz stereo USB capture로 전달한다.
 
-최종 펌웨어 기준점은 `main` 브랜치의 태그 `v1` (`806cfcf`)이다.
+최종 펌웨어 기준점은 `main` 브랜치의 태그 `v1`이다.
 
 </details>
 

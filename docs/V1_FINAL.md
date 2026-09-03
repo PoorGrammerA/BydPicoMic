@@ -6,7 +6,6 @@
 |---|---|
 | Branch | `main` |
 | Tag | `v1` |
-| Commit | `806cfcf` |
 | Board | Waveshare RP2040-Zero |
 | Microphone | INMP441, left channel |
 | SDK | Raspberry Pi Pico SDK 1.5.1 |
@@ -101,7 +100,6 @@ Pico W / WebSocket / UDP ideas were explored only on the `codex/pico-w-websocket
 |---|---|
 | Branch | `main` |
 | Tag | `v1` |
-| Commit | `806cfcf` |
 | Board | Waveshare RP2040-Zero |
 | Microphone | INMP441, left channel |
 | SDK | Raspberry Pi Pico SDK 1.5.1 |
