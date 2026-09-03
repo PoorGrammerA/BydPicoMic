@@ -1,0 +1,16 @@
+/build/
+/build-*/
+/.cache/
+/.vscode/
+/.idea/
+*.elf
+*.bin
+*.hex
+*.uf2
+*.map
+*.dis
+*.o
+*.obj
+*.log
+Thumbs.db
+.DS_Store

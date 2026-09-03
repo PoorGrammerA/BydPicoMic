@@ -1,0 +1,53 @@
+; Receive the INMP441's I2S stream while generating its clocks.
+; Side-set pins are consecutive: BCLK first, then WS.  Each 32-bit I2S slot
+; is pushed into RX FIFO; software keeps the WS=0 (left) slot and discards
+; the silent WS=1 slot selected by the module's L/R=GND wiring.
+.program inmp441_i2s
+.side_set 2
+
+;                              /--- WS
+;                              |/-- BCLK
+;                              ||
+    set x, 30             side 0b00
+left_slot:
+    in pins, 1            side 0b01
+    jmp x-- left_slot     side 0b00
+    in pins, 1            side 0b01
+    set x, 30             side 0b10
+right_slot:
+    in pins, 1            side 0b11
+    jmp x-- right_slot    side 0b10
+    in pins, 1            side 0b11
+
+% c-sdk {
+#include "hardware/clocks.h"
+#include "hardware/gpio.h"
+#include "hardware/pio.h"
+
+static inline void inmp441_i2s_program_init(PIO pio, uint sm, uint offset,
+                                             uint sample_rate, uint data_pin,
+                                             uint clock_pin_base) {
+    pio_sm_config config = inmp441_i2s_program_get_default_config(offset);
+    sm_config_set_in_pins(&config, data_pin);
+    sm_config_set_sideset_pins(&config, clock_pin_base);
+    sm_config_set_in_shift(&config, false, true, 32);
+    sm_config_set_fifo_join(&config, PIO_FIFO_JOIN_RX);
+
+    /* Two PIO instructions per BCLK phase, 32 BCLKs per I2S slot and two
+     * slots per frame: 128 PIO cycles per PCM sample. */
+    float const divider = (float)clock_get_hz(clk_sys) /
+                          ((float)sample_rate * 128.0f);
+    sm_config_set_clkdiv(&config, divider);
+
+    pio_gpio_init(pio, data_pin);
+    pio_gpio_init(pio, clock_pin_base);
+    pio_gpio_init(pio, clock_pin_base + 1u);
+    gpio_pull_down(data_pin);
+
+    pio_sm_init(pio, sm, offset, &config);
+    uint32_t const pin_mask = (1u << data_pin) | (3u << clock_pin_base);
+    uint32_t const output_mask = 3u << clock_pin_base;
+    pio_sm_set_pindirs_with_mask(pio, sm, output_mask, pin_mask);
+    pio_sm_set_pins(pio, sm, 0u);
+}
+%}

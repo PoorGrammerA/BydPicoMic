@@ -1,0 +1,9 @@
+* text=auto
+*.c text eol=lf
+*.h text eol=lf
+*.md text eol=lf
+*.pio text eol=lf
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.wav binary
+*.uf2 binary
